@@ -1,0 +1,43 @@
+#Task Summary
+
+## Task
+
+Implement and validate SAST + DAST security finding correlation in VibeGuard.
+
+## Changes Made
+
+* Added focused correlation test:
+
+  * `tests/test_sast_dast_correlation.py`
+* No production code was modified.
+
+## Validation
+
+* Focused correlation test: **1 passed**
+* Full test suite: **44 passed, 1 skipped, 1 warning**
+
+## Correlation Result
+
+Successfully validated that:
+
+* SAST evidence reaches the LLM analysis layer.
+* DAST evidence reaches the LLM analysis layer.
+* Related SAST + DAST evidence is correlated into **one security finding**.
+* Duplicate findings are avoided.
+* Both evidence IDs are preserved in the final finding.
+
+### Final Finding
+
+* **Type:** `broken_authorization`
+* **Severity:** `high`
+* **Status:** `verified`
+* **Verification:** `verified`
+* **Affected endpoint:** `/api/orders/[id]`
+
+## Outcome
+
+The correlation flow successfully demonstrated how static code evidence and runtime HTTP evidence can be combined into a single verified authorization finding.
+
+## Limitation
+
+This validation uses a deterministic mocked LLM correlation test. It does not represent a general-purpose correlation engine or a live LLM request.
