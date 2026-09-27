@@ -1,0 +1,343 @@
+/* app/(dashboard)/scan/[scanId]/findings/findings.module.css */
+/* Styles for the Findings page with filters and cards */
+
+.page {
+  padding: var(--spacing-2xl);
+  max-width: 1400px;
+  margin: 0 auto;
+  animation: slideUp 350ms ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================================
+   PAGE HEADER
+   ============================================================================ */
+
+.header {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.header h1 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ============================================================================
+   FILTER CARD
+   ============================================================================ */
+
+.filterCard {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.filterHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.filterHeader h3 {
+  margin: 0;
+  font-size: var(--font-size-xl);
+}
+
+.filterGroup {
+  margin-bottom: var(--spacing-lg);
+}
+
+.filterGroup:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--spacing-md);
+}
+
+/* ============================================================================
+   SEARCH INPUT
+   ============================================================================ */
+
+.searchInput {
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
+  transition: all var(--transition-fast);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 255, 0, 0.1), 0 0 8px rgba(0, 255, 0, 0.3);
+  background-color: var(--color-surface-3);
+}
+
+.searchInput::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+/* ============================================================================
+   BADGE GROUP (Filter Buttons)
+   ============================================================================ */
+
+.badgeGroup {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.filterBadge {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  opacity: 0.6;
+}
+
+.filterBadge:hover {
+  opacity: 0.8;
+}
+
+.filterBadgeActive {
+  opacity: 1;
+}
+
+.filterBadgeActive > * {
+  box-shadow: 0 0 12px currentColor !important;
+}
+
+/* ============================================================================
+   FINDINGS LIST
+   ============================================================================ */
+
+.findingsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
+}
+
+/* ============================================================================
+   EMPTY STATE
+   ============================================================================ */
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-3xl);
+  text-align: center;
+  background: linear-gradient(135deg, rgba(0, 255, 0, 0.03), rgba(0, 255, 255, 0.03));
+  border: 1px solid rgba(0, 255, 0, 0.1);
+  border-radius: var(--radius-lg);
+  min-height: 300px;
+}
+
+.emptyState p {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ============================================================================
+   PAGINATION
+   ============================================================================ */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.pageInfo {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  min-width: 200px;
+  text-align: center;
+}
+
+/* ============================================================================
+   SKELETON LOADING STATE
+   ============================================================================ */
+
+.skeletonPage {
+  animation: fadeIn 300ms ease-out;
+}
+
+.skeletonHeader {
+  height: 80px;
+  background: linear-gradient(90deg, var(--color-surface-2) 25%, var(--color-surface-3) 50%, var(--color-surface-2) 75%);
+  background-size: 200% 100%;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-2xl);
+  animation: shimmer 1.5s infinite;
+}
+
+.skeletonFilterCard {
+  height: 200px;
+  background: linear-gradient(90deg, var(--color-surface-2) 25%, var(--color-surface-3) 50%, var(--color-surface-2) 75%);
+  background-size: 200% 100%;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-2xl);
+  animation: shimmer 1.5s infinite;
+}
+
+.skeletonFindings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.skeletonCard {
+  height: 200px;
+  background: linear-gradient(90deg, var(--color-surface-2) 25%, var(--color-surface-3) 50%, var(--color-surface-2) 75%);
+  background-size: 200% 100%;
+  border-radius: var(--radius-md);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================================================
+   ERROR CONTAINER
+   ============================================================================ */
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-3xl);
+  text-align: center;
+  background: linear-gradient(135deg, rgba(255, 59, 48, 0.05), rgba(255, 59, 48, 0.02));
+  border: 1px solid rgba(255, 59, 48, 0.2);
+  border-radius: var(--radius-lg);
+  min-height: 400px;
+}
+
+.errorContainer h2 {
+  margin: 0;
+  color: var(--color-critical);
+}
+
+.errorContainer p {
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .page {
+    padding: var(--spacing-xl);
+  }
+
+  .filterCard {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .badgeGroup {
+    gap: var(--spacing-sm);
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .pageInfo {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: var(--spacing-lg);
+  }
+
+  .header h1 {
+    font-size: var(--font-size-2xl);
+  }
+
+  .filterCard {
+    padding: var(--spacing-md) !important;
+  }
+
+  .filterHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+
+  .badgeGroup {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .filterBadge {
+    width: 100%;
+  }
+
+  .pagination {
+    flex-direction: column;
+  }
+
+  .emptyState {
+    min-height: 250px;
+    padding: var(--spacing-xl);
+  }
+}

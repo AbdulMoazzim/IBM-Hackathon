@@ -1,0 +1,219 @@
+/* components/findings/FindingCard.module.css */
+/* Styles for the FindingCard component */
+
+.findingCard {
+  transition: all 250ms ease-in-out;
+}
+
+.findingCard a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* ============================================================================
+   HEADER
+   ============================================================================ */
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.titleSection {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin: 0;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================================================
+   DESCRIPTION
+   ============================================================================ */
+
+.description {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--spacing-lg);
+  margin-top: 0;
+}
+
+/* ============================================================================
+   METADATA
+   ============================================================================ */
+
+.metadata {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background-color: rgba(0, 255, 0, 0.03);
+  border: 1px solid rgba(0, 255, 0, 0.1);
+  border-radius: var(--radius-md);
+}
+
+.metadataItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  font-size: var(--font-size-sm);
+  flex-wrap: wrap;
+}
+
+.label {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.5px;
+  min-width: 80px;
+}
+
+.code {
+  font-family: var(--font-family-mono);
+  background-color: var(--color-surface-2);
+  color: var(--color-primary);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  white-space: pre-wrap;
+  word-break: break-all;
+  flex: 1;
+  min-width: 0;
+}
+
+.value {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+  flex: 1;
+}
+
+/* ============================================================================
+   FOOTER - RISK METER & ACTION
+   ============================================================================ */
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.riskMeter {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex: 1;
+  font-size: var(--font-size-sm);
+}
+
+.riskLabel {
+  color: var(--color-text-tertiary);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.riskBar {
+  flex: 1;
+  height: 6px;
+  background-color: var(--color-surface-3);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  min-width: 80px;
+  position: relative;
+}
+
+.riskFill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 300ms ease-in-out;
+  box-shadow: 0 0 6px currentColor;
+}
+
+.riskValue {
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+}
+
+.viewDetails {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-medium);
+  margin: 0;
+  white-space: nowrap;
+  font-size: var(--font-size-sm);
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .titleSection {
+    width: 100%;
+  }
+
+  .title {
+    white-space: normal;
+  }
+
+  .metadata {
+    padding: var(--spacing-md);
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .riskMeter {
+    width: 100%;
+  }
+
+  .riskBar {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .metadataItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .label {
+    min-width: auto;
+  }
+
+  .code {
+    width: 100%;
+  }
+}

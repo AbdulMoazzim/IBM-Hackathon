@@ -1,0 +1,270 @@
+/* components/scan/ScanCard.module.css */
+/* Styles for the ScanCard component */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  width: 100%;
+  flex: 1;
+  transition: all 250ms ease-in-out;
+}
+
+.cardLink {
+  display: flex;
+  align-self: stretch;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none !important;
+}
+
+.cardLink:hover,
+.cardLink:focus-visible {
+  color: inherit;
+  text-decoration: none !important;
+}
+
+/* ============================================================================
+   HEADER
+   ============================================================================ */
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+}
+
+.titleSection {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin: 0 0 var(--spacing-sm) 0;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  margin: 0;
+}
+
+/* ============================================================================
+   SCORE SECTION
+   ============================================================================ */
+
+.scoreSection {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background: linear-gradient(135deg, rgba(0, 255, 0, 0.05), rgba(0, 255, 255, 0.05));
+  border: 1px solid rgba(0, 255, 0, 0.1);
+  border-radius: var(--radius-md);
+}
+
+.scoreCircle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(0, 255, 0, 0.15), rgba(0, 255, 0, 0.05));
+  border: 2px solid var(--color-border-light);
+  flex-shrink: 0;
+}
+
+.scoreValue {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  text-shadow: 0 0 8px currentColor;
+}
+
+.scoreLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  margin-top: 2px;
+}
+
+.scoreDescription {
+  flex: 1;
+}
+
+.scoreCategory {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 4px 0;
+  text-transform: capitalize;
+}
+
+.scoreText {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: var(--line-height-tight);
+}
+
+/* ============================================================================
+   FINDINGS BREAKDOWN
+   ============================================================================ */
+
+.findingsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-md);
+}
+
+.findingItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background-color: var(--color-surface-3);
+  border-radius: var(--radius-md);
+}
+
+.findingItem > * {
+  font-weight: var(--font-weight-semibold);
+}
+
+.findingLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================================================
+   TECH STACK
+   ============================================================================ */
+
+.techStack {
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.techLabel {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 var(--spacing-md) 0;
+}
+
+.techList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.tech {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background-color: var(--color-surface-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
+}
+
+.tech:hover {
+  background-color: rgba(0, 255, 0, 0.1);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.techVersion {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  opacity: 0.7;
+}
+
+/* ============================================================================
+   FOOTER
+   ============================================================================ */
+
+.footer {
+  margin-top: auto;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.viewLink {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-medium);
+  margin: 0;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .scoreSection {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .scoreDescription {
+    width: 100%;
+  }
+
+  .findingsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .techList {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    gap: var(--spacing-md);
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .scoreSection {
+    width: 100%;
+  }
+
+  .scoreCircle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .scoreValue {
+    font-size: var(--font-size-2xl);
+  }
+
+  .title {
+    font-size: var(--font-size-base);
+  }
+
+  .findingsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

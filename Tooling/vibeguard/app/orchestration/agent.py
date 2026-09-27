@@ -1,4 +1,4 @@
-﻿import os
+import os
 from typing import Any
 from vibeguard.app.llm.analyst import OpenAIAnalystProvider, SecurityAnalyst
 from vibeguard.app.llm.schemas import SecurityAnalysis, ToolRequest
@@ -16,7 +16,13 @@ class ToolCallingAgent:
         workspace_root = os.getenv("VIBEGUARD_PROJECT_ROOT", ".")
         max_file_bytes = int(os.getenv("VIBEGUARD_MAX_FILE_BYTES", "200000"))
         self.registry = registry or ToolRegistry(workspace_root, max_file_bytes)
-        self.analyst = analyst or SecurityAnalyst(OpenAIAnalystProvider())
+        if analyst is None:
+            base_url = os.getenv("VIBEGUARD_LLM_BASE_URL") or None
+            # Normalise OpenRouter-style base URLs: .../api → .../api/v1
+            if base_url and base_url.rstrip("/").endswith("/api"):
+                base_url = base_url.rstrip("/") + "/v1"
+            analyst = SecurityAnalyst(OpenAIAnalystProvider(base_url=base_url))
+        self.analyst = analyst
         self.max_iterations = max_iterations or int(os.getenv("VIBEGUARD_MAX_TOOL_ITERATIONS", "8"))
 
     def analyze(self, findings: list[ScannerFinding], project_context: dict[str, Any]) -> SecurityAnalysis:

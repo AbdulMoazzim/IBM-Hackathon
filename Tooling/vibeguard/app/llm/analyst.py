@@ -1,4 +1,4 @@
-﻿import json
+import json
 import os
 from uuid import uuid4
 from typing import Any, Callable, Protocol
@@ -44,19 +44,28 @@ class OpenAIAnalystProvider:
         )
 
     def complete(self, messages, tools):
-        response = self.client.chat.completions.create(
-            model=self.model,
-            temperature=0,
-            response_format={"type": "json_object"},
-            messages=messages,
-            tools=tools or None,
-        )
+        # response_format=json_object must not be set when tools are active;
+        # the structured output comes via the tool-call mechanism on those turns.
+        kwargs = dict(model=self.model, temperature=0, messages=messages, tools=tools or None)
+        if not tools:
+            kwargs["response_format"] = {"type": "json_object"}
+        response = self.client.chat.completions.create(**kwargs)
         message = response.choices[0].message
         if message.tool_calls:
+            # Use the first tool call as the "primary" one to execute.
+            # Persist ALL tool_call IDs so that we can send stub responses for any
+            # additional parallel calls the model may have requested — OpenAI rejects
+            # a conversation where any tool_call_id goes unanswered.
             call = message.tool_calls[0]
             tool_call_id = call.id or f"call_{uuid4().hex}"
             assistant_message = message.model_dump(exclude_none=True)
-            assistant_message["tool_calls"][0]["id"] = tool_call_id
+            # Ensure IDs are preserved exactly as returned
+            for i, tc in enumerate(message.tool_calls):
+                assistant_message["tool_calls"][i]["id"] = tc.id or assistant_message["tool_calls"][i]["id"]
+            extra_tool_call_ids = [
+                (tc.id or f"call_{uuid4().hex}", tc.function.name)
+                for tc in message.tool_calls[1:]
+            ]
             return {
                 "kind": "tool_call",
                 "tool_call": {
@@ -64,11 +73,27 @@ class OpenAIAnalystProvider:
                     "arguments": json.loads(call.function.arguments or "{}"),
                 },
                 "tool_call_id": tool_call_id,
+                "extra_tool_call_ids": extra_tool_call_ids,
                 "assistant_message": assistant_message,
             }
         if not message.content:
             raise RuntimeError("LLM returned no content")
-        return {"kind": "final", "analysis": json.loads(message.content)}
+        content = message.content.strip()
+        # The model sometimes wraps the JSON in markdown fences or returns trailing text.
+        # Extract the first complete JSON object robustly.
+        try:
+            analysis = json.loads(content)
+        except json.JSONDecodeError:
+            # Strip markdown code fences if present
+            if "```" in content:
+                import re
+                m = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", content, re.DOTALL)
+                if m:
+                    content = m.group(1)
+            # Fall back: decode the first JSON object only
+            decoder = json.JSONDecoder()
+            analysis, _ = decoder.raw_decode(content)
+        return {"kind": "final", "analysis": analysis}
 
 
 class SecurityAnalyst:
@@ -148,6 +173,16 @@ class SecurityAnalyst:
             if response.get("tool_call_id"):
                 tool_message["tool_call_id"] = response["tool_call_id"]
             messages.append(tool_message)
+            # Send stub responses for any additional parallel tool calls the model
+            # requested — OpenAI rejects conversations where any tool_call_id is
+            # left unanswered.
+            for extra_id, extra_name in response.get("extra_tool_call_ids") or []:
+                messages.append({
+                    "role": "tool",
+                    "tool_call_id": extra_id,
+                    "name": extra_name,
+                    "content": json.dumps({"ok": True, "note": "parallel call — only first call was executed"}),
+                })
 
         raise RuntimeError("maximum analyst iterations exceeded")
 
