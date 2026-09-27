@@ -31,7 +31,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         const { searchParams } = new URL(request.url);
 
         // Extract query parameters
-        const severity = searchParams.get('severity')?.split(',');
         const status = searchParams.get('status')?.split(',');
         const search = searchParams.get('search');
         const page = parseInt(searchParams.get('page') || '1');
