@@ -181,13 +181,13 @@ This allows the output to be consumed by an API, report interface, CI/CD workflo
 ```text
                          VibeGuard
                             │
-             ┌──────────────┼──────────────┐
-             │              │              │
-          Live URL       GitHub*          ZIP*
-             │              │              │
-            DAST       Project extract  Project extract
-             │              │              │
-             └──────────────┼──────────────┘
+                ┌───────────┴───────────┐
+                │                       │
+             Live URL               GitHub*
+                │                       │
+               DAST              Project extract
+                │                       │
+                └───────────┬───────────┘
                             ↓
                      SAST / DAST
                         scanners
@@ -209,7 +209,7 @@ This allows the output to be consumed by an API, report interface, CI/CD workflo
                      FastAPI API
 ```
 
-GitHub and ZIP ingestion are planned but are not currently implemented. At present, the SAST layer operates on an extracted local project directory.
+GitHub ingestion is planned but not currently implemented. At present, the SAST layer operates on an extracted local project directory.
 
 The important architectural boundary is:
 
@@ -266,7 +266,6 @@ The current implementation already demonstrates the core pipeline:
 The following major product layers are not yet implemented:
 
 - GitHub ingestion.
-- ZIP ingestion.
 - Frontend.
 - Database/storage.
 - Authentication.
@@ -281,7 +280,7 @@ The following major product layers are not yet implemented:
   INPUT
   ├── Live URL
   │   └── DAST
-  ├── GitHub repository / ZIP archive
+  ├── GitHub repository
   │   └── project extraction -> SAST
 
   SAST / DAST scanner
@@ -384,14 +383,6 @@ GitHub repository -> project extraction -> scan_project(...)
 ```
 
 GitHub ingestion is not currently implemented. A caller must provide an extracted local project directory.
-
-### ZIP
-
-```text
-ZIP archive -> safe extraction -> scan_project(...)
-```
-
-ZIP ingestion is also not currently implemented.
 
 ---
 
@@ -1086,7 +1077,7 @@ Future hardening may include stronger isolation, audit logging, and additional q
 - No dependency CVE intelligence.
 - Security configuration inspection supports a limited filename list.
 - Correlation is demonstrated through deterministic tests, not a general engine.
-- GitHub and ZIP ingestion are absent.
+- GitHub ingestion is absent.
 - No frontend, database, authentication, or report UI exists.
 
 ---
@@ -1102,7 +1093,6 @@ The following are future work:
 - Dependency vulnerability intelligence.
 - Deeper static dataflow analysis.
 - GitHub ingestion.
-- ZIP ingestion.
 - Frontend/reporting.
 - Database-backed storage.
 - Authentication and multi-user access control.
@@ -1123,7 +1113,6 @@ Planned directions include:
 - Dependency vulnerability intelligence.
 - Deeper static dataflow analysis.
 - GitHub ingestion.
-- ZIP ingestion.
 - Frontend and reporting.
 - Database-backed storage.
 - Authentication and multi-user access control.
